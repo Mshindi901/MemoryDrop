@@ -25,12 +25,12 @@ router.get('/get-memory/:userId', async (req, res) => {
                 success: false,
                 message: "No Memory Found"
             });
-        }
+        }a
 
         // Clean and convert media paths to public URLs
         const updatedMemories = userMemory.map(mem => ({
             ...mem,
-            media: `http://localhost:5000/${mem.media.replace(/\\/g, '/')}`
+            media: `https://memorydrop.onrender.com/${mem.media.replace(/\\/g, '/')}`
         }));
         return res.status(200).json({
             success: true,
