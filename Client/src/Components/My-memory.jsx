@@ -18,7 +18,7 @@ export default function UserMemory(){
         }
         const fetchData = async () => {
             try {
-            const data = await axios.get(`http://localhost:5000/api/get-memory/${user.id}`);
+            const data = await axios.get(`https://memorydrop.onrender.com/api/get-memory/${user.id}`);
             if(data.data.success) {
                 setMemory(data.data.memory);
                 setName(data.data.memory[0].User.username);
