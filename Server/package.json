@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "devStart": "nodemon Server.js"
+    "devStart": "nodemon Server.js",
+    "start": "node Server.js",
+    "build": "echo 'No build needed'"
   },
   "type": "module",
   "keywords": [],
