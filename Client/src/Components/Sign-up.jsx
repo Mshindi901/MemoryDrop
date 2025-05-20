@@ -11,7 +11,7 @@ export default  function SignUP(){
     const handleSubmitRegistrationForm = async (e) => {
         e.preventDefault();
         try {
-        const data = await axios.post('http://localhost:5000/api/user', {
+        const data = await axios.post('https://memorydrop.onrender.com/api/user', {
             username: name,
             email,
             password
