@@ -25,7 +25,7 @@ router.get('/get-memory/:userId', async (req, res) => {
                 success: false,
                 message: "No Memory Found"
             });
-        }a
+        }
 
         // Clean and convert media paths to public URLs
         const updatedMemories = userMemory.map(mem => ({
