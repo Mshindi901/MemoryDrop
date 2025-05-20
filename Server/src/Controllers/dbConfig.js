@@ -7,6 +7,7 @@ dotenv.config();
 
 const AppDataSource = new DataSource({
     type: "postgres",
+    url: "postgresql://memory_drop_db_user:bDGELvXGq09hCBV0N7tu5YYkUk72oP8J@dpg-d0m5bp95pdvs738u5ng0-a/memory_drop_db",
     host: "localhost",
     port: 5432,
     username: "postgres",
