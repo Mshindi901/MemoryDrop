@@ -27,7 +27,6 @@ export const Family = new EntitySchema({
             joinColumn:{
                 name: 'createdBy'
             },
-            eager:  true
         },
         Album: {
             type: 'many-to-one',
