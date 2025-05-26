@@ -25,5 +25,13 @@ export const Memories = new EntitySchema({
             },
             eager: true
         }
+    },
+    Album: {
+        type: 'many-to-one',
+        target: 'User',
+        joinColumn: {
+            name: 'albumId'
+        },
+        eager: true
     }
 });

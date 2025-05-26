@@ -5,20 +5,27 @@ import { useNavigate } from 'react-router-dom';
 export default function UserMemory(){
     const [memoryDisplay,setMemoryDisplay] = useState(false);
     const [name, setName] = useState(null);
-    const [userInfo, setUserInfo] = useState(null);
     const [memory, setMemory] = useState(null);
     const navigate = useNavigate();
     
     useEffect(() => {
-        const user = JSON.parse(localStorage.getItem('User'));
-        console.log(user.id)
-        console.log(user.username);
-        if (user && user.name) {
-            setUserInfo(user);
+        const storedUser = localStorage.getItem('User');
+        if (!storedUser) {
+            console.error("No user found in localStorage");
+            navigate('/'); // optional: redirect to login or home
+            return;
+        }
+
+        const user = JSON.parse(storedUser);
+    
+        if (!user?.id) {
+            console.error("User object missing ID");
+            navigate('/'); // again optional
+            return;
         }
         const fetchData = async () => {
             try {
-            const data = await axios.get(`http://localhost:5000/api/get-memory/${user.id}`);
+            const data = await axios.get(`https://memorydrop.onrender.com/api/get-memory/${user.id}`);
             if(data.data.success) {
                 setMemory(data.data.memory);
                 setName(data.data.memory[0].User.username);
@@ -29,14 +36,16 @@ export default function UserMemory(){
             }
         };
         fetchData();
-    }, [])
-    const addMemory = async () => {
-        if(userInfo){
-            navigate('/memory');
-        } else {
-            navigate('/');
-        }
-    }   
+    }, [navigate])
+    const addMemory = () => {
+    const storedUser = localStorage.getItem('User');
+    if (storedUser) {
+        navigate('/memory');
+    } else {
+        navigate('/');
+    }
+};
+   
     return (
         <>
             <section className="w-full h-fit p-5 flex justify-center items-center bg-blue-500">
@@ -59,12 +68,25 @@ export default function UserMemory(){
                                         <div key={mem.id} className='w-full min-h-86 bg-card flex flex-col justify-center items-center gap-3 p-3 shadow-xl rounded-2xl'>
                                             <img src={mem.media} alt="Image of Memory" className='w-full h-1/2 rounded-2xl object-center'/>
                                             <p className='md:text-3xl text-2xl font-semibold font-body text-text text-center w-full'>{mem.description}</p>
-                                            <button className='w-full py-3 rounded-2xl bg-blue-500 text-2xl font-bold font-heading text-white' onClick={async () => {
-                                                const res = await axios.delete(`http://localhost:5000/api/delete-memory/${mem.id}`);
-                                                if(res.data.success){
-                                                    console.log('Memory Deleted Successfully');
-                                                }
-                                            }}>Delete Memory!</button>
+                                            <button
+                                                className='w-full py-3 rounded-2xl bg-blue-500 text-2xl font-bold font-heading text-white'
+                                                onClick={async () => {
+                                                    try {
+                                                        const res = await axios.delete(`https://memorydrop.onrender.com/api/delete-memory/${mem.id}`);
+                                                        if (res.data.success) {
+                                                            console.log('Memory Deleted Successfully');
+                                                            setMemory(memory.filter(item => item.id !== mem.id)); // remove from local state
+                                                            if (memory.length - 1 === 0) {
+                                                                setMemoryDisplay(false); // toggle back to no memories view
+                                                            }
+                                                        }
+                                                    } catch (error) {
+                                                        console.error('Error deleting memory:', error);
+                                                    }
+                                                }}
+                                            >
+                                                Delete Memory!
+                                            </button>
                                         </div>
                                     ))
                                 }

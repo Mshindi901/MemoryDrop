@@ -2,6 +2,8 @@ import {DataSource} from 'typeorm';
 import "reflect-metadata";
 import {User} from '../models/User.js'
 import { Memories } from '../models/Memory.js';
+import { Album } from '../models/Album.js';
+import { Family } from '../models/Family.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -14,6 +16,6 @@ const AppDataSource = new DataSource({
     database: "postgres",
     synchronize: true,
     logging: true,
-    entities: [User, Memories]
+    entities: [User, Memories, Album, Family]
 });
 export default AppDataSource;

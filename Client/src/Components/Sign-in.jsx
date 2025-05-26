@@ -10,7 +10,7 @@ export default function SignIn({onBackToSignUp}){
     const handleSubmitLoginForm = async (e) => {
         e.preventDefault();
         try {
-        const data = await axios.post('http://localhost:5000/api/login', {
+        const data = await axios.post('https://memorydrop.onrender.com/api/login', {
             email,
             password
         });
@@ -20,7 +20,7 @@ export default function SignIn({onBackToSignUp}){
             console.log(data.data.user);
             localStorage.setItem('User', JSON.stringify(data.data.user));
             console.log('Account Created Successfully');
-            navigate('/memory')
+            navigate('/');
         }
         } catch (error) {
             console.log(error);

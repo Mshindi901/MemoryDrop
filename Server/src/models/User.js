@@ -9,7 +9,9 @@ export const User = new EntitySchema({
             generated: true
         },
         username:{
-            type: String
+            type: String,
+            unique: true,
+            nullable: false
         },
         email:{
             type:String,
@@ -17,6 +19,14 @@ export const User = new EntitySchema({
         },
         password:{
             type:String
+        }
+    },
+    relations: {
+        families: {
+            type: 'one-to-many',
+            target: 'Family',
+            inverseSide: 'User',
+            eager: true
         }
     }
 })
